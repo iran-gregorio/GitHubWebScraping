@@ -1,4 +1,8 @@
 import unittest
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir, 'src'))
 from src import process
 from bs4 import BeautifulSoup
 
