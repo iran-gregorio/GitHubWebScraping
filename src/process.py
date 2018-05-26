@@ -5,8 +5,10 @@ import os
 from bs4 import BeautifulSoup
 from element import Element
 from multiprocessing import Pool
+from argparse import ArgumentParser
 
 BASE_URL = "https://github.com/"
+out_dir = ""
 
 
 def get_soup(url):
@@ -79,7 +81,7 @@ def process(repo):
     df['size'] = df.apply(lambda x: "{0} ({1:.2%})".format(
         x['size'], x['size'] / totalSize), axis=1)
 
-    filename ='../Results/' + repo.replace('/', '-') + '.txt'
+    filename = out_dir + repo.replace('/', '-') + '.txt'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w') as file:
 
@@ -103,10 +105,20 @@ def process(repo):
 
 if __name__ == '__main__':
 
-    with open('../repositores.txt', 'r') as fileRepositores:
+    parser = ArgumentParser()
+    parser.add_argument("-fi", "--file-input", dest="repoFile", help="Input file with repositores")
+    parser.add_argument("-do", "--directory-output", dest="outDir", help="Output directory for result files")
+
+    args = parser.parse_args()
+
+    repoFile = args.repoFile
+    out_dir = args.outDir
+
+    with open(repoFile, 'r') as fileRepositores:
         repositores = fileRepositores.read().splitlines()
 
-    with Pool(10) as p:
-        records = p.map(process, repositores)
-    p.terminate()
-    p.join()
+    process(repositores[0])
+    #with Pool(10) as p:
+     #   records = p.map(process, repositores)
+    #p.terminate()
+    #p.join()
