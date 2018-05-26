@@ -117,8 +117,7 @@ if __name__ == '__main__':
     with open(repoFile, 'r') as fileRepositores:
         repositores = fileRepositores.read().splitlines()
 
-    process(repositores[0])
-    #with Pool(10) as p:
-     #   records = p.map(process, repositores)
-    #p.terminate()
-    #p.join()
+    with Pool(10) as p: 
+        records = p.map(process, repositores)
+    p.terminate()
+    p.join()
