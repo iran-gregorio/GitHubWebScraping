@@ -24,5 +24,10 @@ class Test(unittest.TestCase):
         elementList = process.get_elementList(soup, 0)
         self.assertGreater(len(elementList), 0)
 
+    def test_process(self):
+        process.out_dir = "./Result/"
+        process.process("iran-gregorio/GitHubWebScraping")
+        self.assertTrue(True)
+
 if __name__ == '__main__':
     unittest.main()
