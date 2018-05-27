@@ -19,5 +19,10 @@ class Test(unittest.TestCase):
         self.assertGreater(element.lines, 0)
         self.assertGreater(element.size, 0)
 
+    def test_get_element_list(self):
+        soup = process.get_soup("https://github.com/iran-gregorio/GitHubWebScraping")
+        elementList = process.get_elementList(soup, 0)
+        self.assertGreater(len(elementList), 0)
+
 if __name__ == '__main__':
     unittest.main()
