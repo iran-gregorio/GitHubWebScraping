@@ -28,5 +28,11 @@ class Test(unittest.TestCase):
         process.multi_run_process(("iran-gregorio/GitHubWebScraping", "./Result/"))
         self.assertTrue(True)
 
+    def test_get_full_path_file_raises_exception(self):
+        self.assertRaises(FileNotFoundError, process.get_full_path, "./repositores.txt", True)
+    
+    def test_get_full_path_directory(self):
+        self.assertTrue(os.path.abspath(process.get_full_path("Result", False)))
+
 if __name__ == '__main__':
     unittest.main()
