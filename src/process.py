@@ -8,7 +8,6 @@ from multiprocessing import Pool
 from argparse import ArgumentParser
 
 BASE_URL = "https://github.com/"
-out_dir = ""
 
 
 def get_soup(url):
