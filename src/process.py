@@ -81,7 +81,7 @@ def process(repo, out_dir):
         x['size'], x['size'] / totalSize), axis=1)
 
     filename = out_dir + repo.replace('/', '-') + '.txt'
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
     with open(filename, 'w') as file:
 
         file.write("Caminho: {0}\n".format(repo))
@@ -104,21 +104,38 @@ def process(repo, out_dir):
 def multi_run_process(args):
     return process(*args)
 
+def get_full_path(path, is_file):
+    if not os.path.isabs(path):
+        path = os.path.abspath(path)
+    
+    if is_file:
+        if not os.path.isfile(path):
+            raise FileNotFoundError("Input file not found")
+    else:
+        if not path[len(path)-1] == "\\":
+            path = path + "\\"
+
+        os.makedirs(path, exist_ok=True)
+    return path
+
 if __name__ == '__main__':
 
     parser = ArgumentParser()
-    parser.add_argument("-fi", "--file-input", dest="repoFile", help="Input file with repositores")
-    parser.add_argument("-do", "--directory-output", dest="outDir", help="Output directory for result files")
+    parser.add_argument("-fi", "--file-input", dest="repoFile",
+        help="Input file with repositores")
+    parser.add_argument("-do", "--directory-output", dest="outDir",
+        help="Output directory for result files")
 
     args = parser.parse_args()
 
-    repoFile = args.repoFile
-    out_dir = args.outDir
+    repoFile = get_full_path(args.repoFile, True)
+    out_dir = get_full_path(args.outDir, False)
 
     with open(repoFile, 'r') as fileRepositores:
         repositores = fileRepositores.read().splitlines()
 
     with Pool(10) as p: 
-        records = p.map(multi_run_process, [(repo, out_dir) for repo in repositores])
+        records = p.map(multi_run_process, 
+            [(repo, out_dir) for repo in repositores])
     p.terminate()
     p.join()
