@@ -81,7 +81,7 @@ def process(repo, out_dir):
         x['size'], x['size'] / totalSize), axis=1)
 
     filename = out_dir + repo.replace('/', '-') + '.txt'
-    os.makedirs(os.path.curdir(filename), exist_ok=True)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w') as file:
 
         file.write("Caminho: {0}\n".format(repo))
