@@ -59,9 +59,9 @@ def get_elementList(soup, level):
     return result
 
 
-def process(repo):
+def process(repo, out_dir):
     soup = get_soup(BASE_URL + repo)
-
+    
     elementsRepo = get_elementList(soup, 0)
 
     totalLines = sum(e.lines for e in elementsRepo)
@@ -102,6 +102,8 @@ def process(repo):
                 file.write("\n{0}|__ [{1}]".format(
                     ("|   " * elm.level), elm.title))
 
+def multi_run_process(args):
+    return process(*args)
 
 if __name__ == '__main__':
 
@@ -118,6 +120,6 @@ if __name__ == '__main__':
         repositores = fileRepositores.read().splitlines()
 
     with Pool(10) as p: 
-        records = p.map(process, repositores)
+        records = p.map(multi_run_process, [(repo, out_dir) for repo in repositores])
     p.terminate()
     p.join()

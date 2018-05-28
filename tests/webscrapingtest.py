@@ -25,8 +25,7 @@ class Test(unittest.TestCase):
         self.assertGreater(len(elementList), 0)
 
     def test_process(self):
-        process.out_dir = "./Result/"
-        process.process("iran-gregorio/GitHubWebScraping")
+        process.process("iran-gregorio/GitHubWebScraping", "./Result/")
         self.assertTrue(True)
 
 if __name__ == '__main__':
