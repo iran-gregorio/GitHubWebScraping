@@ -24,8 +24,8 @@ class Test(unittest.TestCase):
         elementList = process.get_elementList(soup, 0)
         self.assertGreater(len(elementList), 0)
 
-    def test_process(self):
-        process.process("iran-gregorio/GitHubWebScraping", "./Result/")
+    def test_multi_run_process(self):
+        process.multi_run_process(("iran-gregorio/GitHubWebScraping", "./Result/"))
         self.assertTrue(True)
 
 if __name__ == '__main__':
